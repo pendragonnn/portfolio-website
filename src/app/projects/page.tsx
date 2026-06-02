@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { PROJECTS_DATA } from "../../components/features/landing-pages/projects/constant";
 import { SortFilter, ProjectGrid, SortOption, FilterOption } from "../../components/features/projects";
 import Spotlight from "../../components/shared/spotlight";
@@ -37,10 +38,15 @@ export default function ProjectsShowcase() {
   });
 
   return (
-    <div className={`${isBlackTheme ? 'bg-black' : 'bg-deep-blue'} text-glacial-salt selection:bg-ocean-city selection:text-deep-blue relative min-h-screen overflow-x-hidden transition-colors duration-500`}>
+    <div className={`${isBlackTheme ? 'bg-[#1A1A1A]' : 'bg-deep-blue'} text-glacial-salt selection:bg-ocean-city selection:text-deep-blue relative min-h-screen overflow-x-hidden transition-colors duration-500`}>
       <FloatingToggles />
       <Spotlight />
-      <div className="mx-auto min-h-screen max-w-screen-2xl px-6 py-12 font-sans md:px-12 md:py-20 lg:px-24 lg:py-24">
+      <motion.div
+        className="mx-auto min-h-screen max-w-screen-2xl px-6 py-12 font-sans md:px-12 md:py-20 lg:px-24 lg:py-24"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Link
           href="/"
           className="group inline-flex items-center font-medium leading-tight text-ocean-city hover:text-concerto transition-colors mb-8"
@@ -49,13 +55,24 @@ export default function ProjectsShowcase() {
           {language === 'en' ? "Back to Home" : "Kembali ke Beranda"}
         </Link>
 
-        <h1 className="text-4xl font-bold tracking-tight text-concerto sm:text-5xl mb-12">
+        <motion.h1
+          className="text-4xl font-bold tracking-tight text-concerto sm:text-5xl mb-12"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        >
           {language === 'en' ? "Project Showcase" : "Semua Projek"}
-        </h1>
+        </motion.h1>
 
-        <SortFilter filter={filter} setFilter={setFilter} sort={sort} setSort={setSort} />
-        <ProjectGrid projects={sortedProjects} />
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <SortFilter filter={filter} setFilter={setFilter} sort={sort} setSort={setSort} />
+          <ProjectGrid projects={sortedProjects} />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

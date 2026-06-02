@@ -6,7 +6,7 @@ export default function FloatingToggles() {
   const { language, toggleLanguage, isBlackTheme, toggleTheme } = useAppStore();
 
   return (
-    <div className="fixed top-6 right-6 z-[100] flex items-center gap-3">
+    <div className="fixed md:top-6 right-6 top-3 z-[100] flex items-center gap-3">
       {/* Theme Toggle */}
       <button
         onClick={toggleTheme}

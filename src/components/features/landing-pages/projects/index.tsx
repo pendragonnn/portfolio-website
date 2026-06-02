@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { PROJECTS_DATA, PROJECTS_CTA } from "./constant";
 import ProjectCard from "../../../shared/project/ProjectCard";
 import { useAppStore } from "../../../../store/useAppStore";
@@ -9,12 +10,16 @@ export default function Projects() {
   const { language, isBlackTheme } = useAppStore();
 
   return (
-    <section
+    <motion.section
       id="projects"
       className="scroll-mt-16 lg:scroll-mt-24"
       aria-label={language === 'en' ? "Selected projects" : "Projek pilihan"}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className={`sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0 ${isBlackTheme ? 'bg-black/75' : 'bg-deep-blue/75'} transition-colors duration-500`}>
+      <div className={`sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0 ${isBlackTheme ? 'bg-[#1A1A1A]' : 'bg-deep-blue/75'} transition-colors duration-500`}>
         <h2 className="text-sm font-bold uppercase tracking-widest text-concerto lg:sr-only">
           {language === 'en' ? "Projects" : "Projek"}
         </h2>
@@ -22,13 +27,26 @@ export default function Projects() {
       <div>
         <ul className="group/list">
           {PROJECTS_DATA.slice(0, 2).map((project, idx) => (
-            <li key={idx} className="mb-12">
+            <motion.li 
+              key={idx} 
+              className="mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
               <ProjectCard project={project} />
-            </li>
+            </motion.li>
           ))}
         </ul>
 
-        <div className="mt-12">
+        <motion.div 
+          className="mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <Link
             className="inline-flex items-center font-medium leading-tight text-concerto group/link text-base hover:text-ocean-city transition-colors"
             href="/projects"
@@ -43,8 +61,8 @@ export default function Projects() {
               </svg>
             </span>
           </Link>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -2,8 +2,29 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
 import { HEADER_DATA, NAV_ITEMS, SOCIAL_LINKS } from "./constant";
 import { useAppStore } from "../../../../store/useAppStore";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } 
+  },
+};
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("about");
@@ -33,21 +54,25 @@ export default function Header() {
 
   return (
     <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:py-24">
-      <div>
-        <h1 className="text-4xl font-black tracking-tight text-concerto sm:text-5xl">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.h1 variants={itemVariants} className="text-4xl font-black tracking-tight text-concerto sm:text-5xl">
           <Link href="/">{HEADER_DATA.name}</Link>
-        </h1>
-        <h2 className="mt-3 text-lg font-medium tracking-tight text-concerto sm:text-xl">
+        </motion.h1>
+        <motion.h2 variants={itemVariants} className="mt-3 text-lg font-medium tracking-tight text-concerto sm:text-xl">
           {HEADER_DATA.role}
-        </h2>
-        <p className="mt-4 max-w-xs leading-normal text-glacial-salt">
+        </motion.h2>
+        <motion.p variants={itemVariants} className="mt-4 max-w-xs leading-normal text-glacial-salt">
           {language === 'en' ? HEADER_DATA.description : HEADER_DATA.descriptionId}
-        </p>
+        </motion.p>
 
         <nav className="nav hidden lg:block" aria-label="In-page jump links">
           <ul className="mt-16 flex flex-col gap-2 w-max">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.id}>
+            {NAV_ITEMS.map((item, idx) => (
+              <motion.li key={item.id} variants={itemVariants}>
                 <a
                   className="group flex items-center py-3"
                   href={`#${item.id}`}
@@ -62,15 +87,21 @@ export default function Header() {
                     {language === 'en' ? item.name : item.nameId}
                   </span>
                 </a>
-              </li>
+              </motion.li>
             ))}
           </ul>
         </nav>
-      </div>
+      </motion.div>
 
-      <ul className="ml-1 mt-8 flex items-center" aria-label="Social media">
+      <motion.ul 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="ml-1 mt-8 flex items-center" 
+        aria-label="Social media"
+      >
         {SOCIAL_LINKS.map((link) => (
-          <li key={link.name} className="mr-5 shrink-0 text-xs">
+          <motion.li key={link.name} variants={itemVariants} className="mr-5 shrink-0 text-xs">
             <a
               className="block hover:text-concerto text-glacial-salt transition-colors"
               href={link.url}
@@ -84,9 +115,9 @@ export default function Header() {
                 <path d={link.iconPath}></path>
               </svg>
             </a>
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </header>
   );
 }
