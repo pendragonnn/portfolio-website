@@ -2,12 +2,15 @@
 
 import { Project } from "../../landing-pages/projects/constant";
 import ProjectCard from "../../../shared/project/ProjectCard";
+import { useAppStore } from "../../../../store/useAppStore";
 
 interface ProjectGridProps {
   projects: Project[];
 }
 
 export default function ProjectGrid({ projects }: ProjectGridProps) {
+  const { language } = useAppStore();
+
   return (
     <div className="relative mb-12">
       {/* Bottom border for the grid */}
@@ -25,7 +28,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
 
       {projects.length === 0 && (
         <div className="text-center py-20 text-glacial-salt relative z-10">
-          No projects found.
+          {language === 'en' ? "No projects found." : "Tidak ada projek ditemukan."}
         </div>
       )}
     </div>

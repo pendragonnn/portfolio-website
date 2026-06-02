@@ -1,15 +1,20 @@
+"use client";
+
 import { EXPERIENCE_DATA } from "./constant";
+import { useAppStore } from "../../../../store/useAppStore";
 
 export default function Experience() {
+  const { language, isBlackTheme } = useAppStore();
+
   return (
     <section
       id="experience"
       className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-      aria-label="Work experience"
+      aria-label={language === 'en' ? "Work experience" : "Pengalaman kerja"}
     >
-      <div className="sticky top-0 z-20 -mx-6 mb-4 bg-deep-blue/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+      <div className={`sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0 ${isBlackTheme ? 'bg-black/75' : 'bg-deep-blue/75'} transition-colors duration-500`}>
         <h2 className="text-sm font-bold uppercase tracking-widest text-concerto lg:sr-only">
-          Experience
+          {language === 'en' ? "Experience" : "Pengalaman"}
         </h2>
       </div>
       <div>
@@ -20,16 +25,16 @@ export default function Experience() {
                 <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-ocean-city/10 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg"></div>
                 <header
                   className="z-10 mb-2 mt-1 text-sm font-semibold uppercase tracking-wide text-ocean-city sm:col-span-2"
-                  aria-label={item.period}
+                  aria-label={language === 'en' ? item.period : item.periodId}
                 >
-                  {item.period}
+                  {language === 'en' ? item.period : item.periodId}
                 </header>
                 <div className="z-10 sm:col-span-6">
                   <h3 className="font-medium leading-snug text-concerto text-lg">
-                    {item.role}
+                    {language === 'en' ? item.role : item.roleId}
                   </h3>
                   <p className="mt-2 text-sm leading-normal text-glacial-salt">
-                    {item.description}
+                    {language === 'en' ? item.description : item.descriptionId}
                   </p>
                   <ul className="mt-2 flex flex-wrap" aria-label="Technologies used">
                     {item.technologies.map((tech) => (
@@ -52,7 +57,7 @@ export default function Experience() {
                         aria-label="View Internship Certificate"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        <span>View Certificate</span>
+                        <span>{language === 'en' ? "View Certificate" : "Lihat Sertifikat"}</span>
                       </a>
                     </div>
                   )}
@@ -71,11 +76,11 @@ export default function Experience() {
           >
             <span>
               <span className="border-b border-transparent pb-px transition group-hover/link:border-ocean-city motion-reduce:transition-none">
-                View Full 
+                {language === 'en' ? "View Full" : "Lihat"} 
               </span>
               <span className="whitespace-nowrap">
                 <span className="border-b border-transparent pb-px transition group-hover/link:border-ocean-city motion-reduce:transition-none ml-1">
-                  Résumé
+                  {language === 'en' ? "Résumé" : "CV Lengkap"}
                 </span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="ml-1 inline-block h-4 w-4 shrink-0 -translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 motion-reduce:transition-none" aria-hidden="true">
                   <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd"></path>

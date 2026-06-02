@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { HEADER_DATA, NAV_ITEMS, SOCIAL_LINKS } from "./constant";
+import { useAppStore } from "../../../../store/useAppStore";
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("about");
+  const { language } = useAppStore();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,7 +41,7 @@ export default function Header() {
           {HEADER_DATA.role}
         </h2>
         <p className="mt-4 max-w-xs leading-normal text-glacial-salt">
-          {HEADER_DATA.description}
+          {language === 'en' ? HEADER_DATA.description : HEADER_DATA.descriptionId}
         </p>
 
         <nav className="nav hidden lg:block" aria-label="In-page jump links">
@@ -57,7 +59,7 @@ export default function Header() {
                         : "text-transparent [-webkit-text-stroke:2px_white] hover:text-white/50"
                     }`}
                   >
-                    {item.name}
+                    {language === 'en' ? item.name : item.nameId}
                   </span>
                 </a>
               </li>

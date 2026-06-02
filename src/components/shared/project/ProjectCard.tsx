@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Project } from "../../features/landing-pages/projects/constant";
+import { useAppStore } from "../../../store/useAppStore";
 
 interface ProjectCardProps {
   project: Project;
@@ -14,6 +15,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
   const [isOverflowing, setIsOverflowing] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
   
+  const { language, isBlackTheme } = useAppStore();
   const isVertical = variant === "vertical";
   
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [project.description, variant, isExpanded]);
+  }, [project.description, project.descriptionId, language, variant, isExpanded]);
 
   // Use posterImage for horizontal layout if available
   const displayImage = !isVertical && project.posterImage ? project.posterImage : project.image;
@@ -69,7 +71,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
           </h3>
           {project.date && (
             <div className="mt-1 text-xs text-ocean-city font-medium">
-              {new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+              {new Date(project.date).toLocaleDateString(language === 'en' ? 'en-US' : 'id-ID', { year: 'numeric', month: 'long' })}
             </div>
           )}
           <div className="mt-2 text-sm text-glacial-salt leading-normal">
@@ -77,7 +79,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
               ref={textRef} 
               className={isVertical && !isExpanded ? "line-clamp-3" : ""}
             >
-              {project.description}
+              {language === 'en' ? project.description : project.descriptionId}
             </p>
             {isVertical && (isOverflowing || isExpanded) && (
               <button 
@@ -87,7 +89,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
                 }} 
                 className="mt-1 text-ocean-city hover:text-concerto font-medium focus:outline-none transition-colors inline-block"
               >
-                {isExpanded ? "See less" : "See more"}
+                {isExpanded ? (language === 'en' ? "See less" : "Tutup") : (language === 'en' ? "See more" : "Lihat selengkapnya")}
               </button>
             )}
           </div>
@@ -104,21 +106,21 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
           {/* Action Links */}
           <div className={isVertical ? "mt-auto flex border-t-[2px] border-white -mx-6 sm:-mx-8 -mb-6 sm:-mb-8" : "mt-auto pt-5 flex flex-wrap gap-4 items-center"}>
             {project.visitUrl && project.visitUrl !== "#" && (
-              <a href={project.visitUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? "flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white hover:text-deep-blue transition-colors border-r-[2px] border-white last:border-r-0" : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Visit Site">
+              <a href={project.visitUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? `flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white ${isBlackTheme ? 'hover:text-black' : 'hover:text-deep-blue'} transition-colors border-r-[2px] border-white last:border-r-0` : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Visit Site">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <span>Live Demo</span>
+                <span>{language === 'en' ? "Live Demo" : "Lihat Demo"}</span>
               </a>
             )}
             {project.repositoryUrl && project.repositoryUrl !== "#" && (
-              <a href={project.repositoryUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? "flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white hover:text-deep-blue transition-colors border-r-[2px] border-white last:border-r-0" : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Repository">
+              <a href={project.repositoryUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? `flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white ${isBlackTheme ? 'hover:text-black' : 'hover:text-deep-blue'} transition-colors border-r-[2px] border-white last:border-r-0` : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Repository">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                <span>Source Code</span>
+                <span>{language === 'en' ? "Source Code" : "Kode Sumber"}</span>
               </a>
             )}
             {project.documentationUrl && project.documentationUrl !== "#" && (
-              <a href={project.documentationUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? "flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white hover:text-deep-blue transition-colors border-r-[2px] border-white last:border-r-0" : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Documentation">
+              <a href={project.documentationUrl} target="_blank" rel="noreferrer noopener" className={isVertical ? `flex-1 flex justify-center items-center gap-2 py-4 text-sm font-bold text-white bg-transparent hover:bg-white ${isBlackTheme ? 'hover:text-black' : 'hover:text-deep-blue'} transition-colors border-r-[2px] border-white last:border-r-0` : "z-20 flex items-center gap-1.5 text-sm font-medium text-glacial-salt hover:text-ocean-city transition-colors"} title="Documentation">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                <span>Docs</span>
+                <span>{language === 'en' ? "Docs" : "Dokumen"}</span>
               </a>
             )}
           </div>
@@ -127,7 +129,7 @@ export default function ProjectCard({ project, variant = "horizontal" }: Project
 
       {/* Image Lightbox Modal */}
       {isImageOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-deep-blue/90 p-4 sm:p-8 backdrop-blur-md" onClick={() => setIsImageOpen(false)}>
+        <div className={`fixed inset-0 z-[100] flex items-center justify-center ${isBlackTheme ? 'bg-black/90' : 'bg-deep-blue/90'} p-4 sm:p-8 backdrop-blur-md`} onClick={() => setIsImageOpen(false)}>
           <button 
             className="absolute top-6 right-6 text-glacial-salt hover:text-ocean-city transition-colors z-[110]"
             onClick={() => setIsImageOpen(false)}

@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppStore } from "../../../../store/useAppStore";
+
 export type SortOption = "date-desc" | "date-asc" | "alpha-asc" | "alpha-desc";
 export type FilterOption = "all" | "web" | "mobile";
 
@@ -11,6 +13,14 @@ interface SortFilterProps {
 }
 
 export default function SortFilter({ filter, setFilter, sort, setSort }: SortFilterProps) {
+  const { language, isBlackTheme } = useAppStore();
+
+  const filterLabels: Record<FilterOption, { en: string; id: string }> = {
+    all: { en: "All", id: "Semua" },
+    web: { en: "Web", id: "Web" },
+    mobile: { en: "Mobile", id: "Mobile" },
+  };
+
   return (
     <div className="mb-12 relative flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center py-6">
       {/* Full-bleed top and bottom borders */}
@@ -28,23 +38,25 @@ export default function SortFilter({ filter, setFilter, sort, setSort }: SortFil
                 : "text-glacial-salt hover:text-concerto hover:bg-ocean-city/20"
             }`}
           >
-            {f.charAt(0).toUpperCase() + f.slice(1)}
+            {language === 'en' ? filterLabels[f].en : filterLabels[f].id}
           </button>
         ))}
       </div>
 
       <div className="flex items-center gap-3">
-        <label htmlFor="sort" className="text-sm font-medium text-glacial-salt">Sort:</label>
+        <label htmlFor="sort" className="text-sm font-medium text-glacial-salt">
+          {language === 'en' ? "Sort:" : "Urutkan:"}
+        </label>
         <select
           id="sort"
           value={sort}
           onChange={(e) => setSort(e.target.value as SortOption)}
-          className="bg-deep-blue border border-ocean-city/30 text-concerto text-sm rounded-lg focus:ring-ocean-city focus:border-ocean-city block w-full p-2.5 outline-none"
+          className={`${isBlackTheme ? 'bg-black' : 'bg-deep-blue'} border border-ocean-city/30 text-concerto text-sm rounded-lg focus:ring-ocean-city focus:border-ocean-city block w-full p-2.5 outline-none transition-colors`}
         >
-          <option value="date-desc">Newest First</option>
-          <option value="date-asc">Oldest First</option>
-          <option value="alpha-asc">Alphabetical (A-Z)</option>
-          <option value="alpha-desc">Alphabetical (Z-A)</option>
+          <option value="date-desc">{language === 'en' ? "Newest First" : "Terbaru"}</option>
+          <option value="date-asc">{language === 'en' ? "Oldest First" : "Terlama"}</option>
+          <option value="alpha-asc">{language === 'en' ? "Alphabetical (A-Z)" : "Alfabet (A-Z)"}</option>
+          <option value="alpha-desc">{language === 'en' ? "Alphabetical (Z-A)" : "Alfabet (Z-A)"}</option>
         </select>
       </div>
     </div>
