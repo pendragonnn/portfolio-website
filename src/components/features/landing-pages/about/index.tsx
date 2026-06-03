@@ -24,9 +24,11 @@ export default function About() {
       </div>
       <div>
         {ABOUT_TEXT.map((item, idx) => (
-          <p key={idx} className={`text-glacial-salt ${idx !== ABOUT_TEXT.length - 1 ? 'mb-4' : ''}`}>
-            {language === 'en' ? item.text : item.textId}
-          </p>
+          <p 
+            key={idx} 
+            className={`text-glacial-salt ${idx !== ABOUT_TEXT.length - 1 ? 'mb-4' : ''}`}
+            dangerouslySetInnerHTML={{ __html: language === 'en' ? item.text : item.textId }}
+          />
         ))}
       </div>
     </motion.section>

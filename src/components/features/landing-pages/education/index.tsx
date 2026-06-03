@@ -55,9 +55,10 @@ export default function Education() {
                       </div>
                     )}
                   </div>
-                  <p className="mt-4 text-sm leading-normal text-glacial-salt">
-                    {language === 'en' ? item.description : item.descriptionId}
-                  </p>
+                  <p 
+                    className="mt-4 text-sm leading-normal text-glacial-salt"
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? item.description : item.descriptionId }}
+                  />
                 </div>
               </div>
             </motion.li>

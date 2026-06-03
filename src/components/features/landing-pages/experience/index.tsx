@@ -45,9 +45,10 @@ export default function Experience() {
                   <h3 className="font-medium leading-snug text-concerto text-lg">
                     {language === 'en' ? item.role : item.roleId}
                   </h3>
-                  <p className="mt-2 text-sm leading-normal text-glacial-salt">
-                    {language === 'en' ? item.description : item.descriptionId}
-                  </p>
+                  <p 
+                    className="mt-2 text-sm leading-normal text-glacial-salt"
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? item.description : item.descriptionId }}
+                  />
                   <ul className="mt-2 flex flex-wrap" aria-label="Technologies used">
                     {item.technologies.map((tech) => (
                       <li key={tech} className="mr-1.5 mt-2">
