@@ -70,7 +70,7 @@ export const PROJECTS_DATA: Project[] = [
     image: "/images/litera_market.png",
     description: "An e-commerce website built to manage book catalogs, orders, and customer reviews. It was developed as a full-stack project with a modern UI design.",
     descriptionId: "Website e-commerce yang dibangun untuk mengelola katalog buku, pesanan, dan ulasan pelanggan. Dikembangkan sebagai proyek fullstack dengan desain UI modern.",
-    technologies: ["Next.js", "TypeScript"],
+    technologies: ["Laravel", "Blade", "TailwindCSS", "MySQL", "Alpine.js"],
     type: "web",
     date: "2025-11-11"
   },
